@@ -1,12 +1,18 @@
-"""Check the live Nasdaq feed from THIS machine:  python scripts/check_nasdaq.py [SYMBOL ...]"""
+"""Check a live feed from THIS machine:  python scripts/check_nasdaq.py [SYMBOL ...] [--yahoo]"""
 import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-from meridian.data.providers import NasdaqProvider  # noqa: E402
+from meridian.data.providers import NasdaqProvider, ProviderError, YahooProvider  # noqa: E402
 
 symbols = sys.argv[1:] or ["AAPL", "NVDA", "MSFT"]
-p = NasdaqProvider(timeout_s=10)
+which = "yahoo" if "--yahoo" in sys.argv else "nasdaq"
+symbols = [x for x in symbols if not x.startswith("--")] or ["AAPL", "NVDA", "MSFT"]
+try:
+    p = YahooProvider() if which == "yahoo" else NasdaqProvider(timeout_s=10)
+except ProviderError as e:
+    sys.exit(f"{e}")
+print(f"Checking live source: {which}")
 ok = True
 for s in symbols:
     for name, fn in (("quote", lambda s=s: p.quote(s)), ("history", lambda s=s: p.history(s, 60)), ("fundamentals", lambda s=s: p.fundamentals(s))):

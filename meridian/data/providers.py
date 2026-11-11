@@ -248,22 +248,101 @@ class NasdaqProvider:
                 "provenance": provenance("nasdaq", False, None, "Summary ratios only")}
 
 
+class YahooProvider:
+    """Yahoo Finance via the `yfinance` package: no API key, usually reachable from cloud hosts (Nasdaq's API often is not).
+    Prices are typically delayed ~15 minutes. Unofficial: for study/demo use, not for trading."""
+    name = "yahoo"
+
+    def __init__(self, yf=None):
+        if yf is None:
+            try:
+                import yfinance as yf  # type: ignore
+            except ImportError as e:
+                raise ProviderError("yahoo: pip install yfinance", transient=False) from e
+        self._yf = yf
+
+    def _bars(self, symbol: str, period: str):
+        try:
+            df = self._yf.Ticker(symbol).history(period=period, interval="1d", auto_adjust=False)
+        except Exception as e:  # network, rate limit, parsing
+            raise ProviderError(f"yahoo {symbol}: {type(e).__name__}: {e}") from e
+        if df is None or len(df) == 0:
+            raise ProviderError(f"yahoo {symbol}: no data", transient=False)
+        out = []
+        for idx, r in df.iterrows():
+            try:
+                o, h, lo, c = (float(r["Open"]), float(r["High"]), float(r["Low"]), float(r["Close"]))
+            except (KeyError, TypeError, ValueError):
+                continue
+            if any(v != v for v in (o, h, lo, c)):  # NaN
+                continue
+            out.append({"date": str(idx)[:10], "open": round(o, 4), "high": round(h, 4), "low": round(lo, 4),
+                        "close": round(c, 4), "volume": int(r.get("Volume", 0) or 0)})
+        return out
+
+    def quote(self, symbol: str) -> Dict[str, Any]:
+        bars = self._bars(symbol, "5d")
+        if len(bars) < 2:
+            raise ProviderError("yahoo quote: too few rows", transient=False)
+        last, prev = bars[-1], bars[-2]
+        chg = last["close"] - prev["close"]
+        return {"symbol": symbol, "price": last["close"], "change": round(chg, 4),
+                "change_pct": round(chg / prev["close"] * 100, 2) if prev["close"] else 0.0, "volume": last["volume"],
+                "provenance": provenance("yahoo", False, last["date"], "Yahoo Finance daily close/last, may be delayed ~15 min")}
+
+    def history(self, symbol: str, days: int = 180) -> Dict[str, Any]:
+        period = "1y" if days <= 250 else "2y" if days <= 500 else "5y"
+        bars = self._bars(symbol, period)
+        if len(bars) < 30:
+            raise ProviderError("yahoo history: too few rows", transient=False)
+        return {"symbol": symbol, "candles": bars[-days:],
+                "provenance": provenance("yahoo", False, bars[-1]["date"], "Yahoo Finance daily bars (unadjusted)")}
+
+    def fundamentals(self, symbol: str) -> Dict[str, Any]:
+        try:
+            info = dict(self._yf.Ticker(symbol).info or {})
+        except Exception as e:
+            raise ProviderError(f"yahoo fundamentals {symbol}: {type(e).__name__}: {e}") from e
+
+        def g(k):
+            v = info.get(k)
+            return float(v) if isinstance(v, (int, float)) and v == v else None
+        mcap, fcf, de = g("marketCap"), g("freeCashflow"), g("debtToEquity")
+        ratios = {"pe": g("trailingPE"), "forward_pe": g("forwardPE"), "ps": g("priceToSalesTrailing12Months"), "market_cap": mcap,
+                  "revenue_growth_yoy": g("revenueGrowth"), "gross_margin": g("grossMargins"), "operating_margin": g("operatingMargins"),
+                  "net_margin": g("profitMargins"), "fcf_yield": (fcf / mcap) if fcf and mcap else None,
+                  "debt_to_equity": (de / 100.0) if de is not None else None,  # Yahoo reports percent
+                  "roe": g("returnOnEquity"), "beta": g("beta"), "eps_ttm": g("trailingEps"), "dividend_yield": g("dividendYield")}
+        ratios = {k: v for k, v in ratios.items() if v is not None}
+        if not ratios:
+            raise ProviderError("yahoo fundamentals: no ratios", transient=False)
+        return {"symbol": symbol, "sector": info.get("sector") or SECTOR.get(symbol, "Technology"), "ratios": ratios, "statements": None,
+                "fields_source": {k: "yahoo" for k in ratios}, "provenance": provenance("yahoo", False, None, "Summary ratios only")}
+
+
 class AutoProvider:
-    """Nasdaq-first with circuit breaker; falls back per call to the simulator."""
+    """Live sources in order (e.g. Nasdaq, then Yahoo), each with its own circuit breaker; falls back per call to the simulator."""
     name = "auto"
 
-    def __init__(self, primary: Optional[NasdaqProvider], fallback: SyntheticProvider, ttl_s: float = 20.0,
+    def __init__(self, primary, fallback: SyntheticProvider, ttl_s: float = 20.0,
                  breaker_threshold: int = 3, breaker_cooldown_s: float = 60.0):
-        self.primary, self.fallback = primary, fallback
+        chain = primary if isinstance(primary, (list, tuple)) else [primary]
+        self.chain = [p for p in chain if p is not None]
+        self.primary = self.chain[0] if self.chain else None
+        self.fallback = fallback
         self.ttl_s, self._th, self._cool = ttl_s, breaker_threshold, breaker_cooldown_s
-        self._fails, self._open_until = 0, 0.0
+        self._fails: Dict[str, int] = {}
+        self._open_until: Dict[str, float] = {}
         self._cache: Dict[Any, Any] = {}
         self._lock = threading.Lock()
         self.last_error: Optional[str] = None
 
+    def _open(self, p) -> bool:
+        return time.time() < self._open_until.get(p.name, 0.0)
+
     @property
     def breaker_open(self) -> bool:
-        return time.time() < self._open_until
+        return bool(self.chain) and all(self._open(p) for p in self.chain)
 
     def _call(self, method: str, *args) -> Dict[str, Any]:
         key = (method, args)
@@ -271,27 +350,30 @@ class AutoProvider:
             hit = self._cache.get(key)
             if hit and time.time() - hit[0] < self.ttl_s:
                 return hit[1]
-        res = None
-        if self.primary is not None and not self.breaker_open:
+        res, used = None, None
+        for p in self.chain:
+            if self._open(p):
+                continue
             try:
-                res = getattr(self.primary, method)(*args)
-                self._fails = 0
+                res, used = getattr(p, method)(*args), p
+                self._fails[p.name] = 0
+                break
             except ProviderError as e:
                 self.last_error = str(e)
-                self._fails += 1
-                if self._fails >= self._th:
-                    self._open_until = time.time() + self._cool
+                self._fails[p.name] = self._fails.get(p.name, 0) + 1
+                if self._fails[p.name] >= self._th:
+                    self._open_until[p.name] = time.time() + self._cool
         if res is None:
             res = getattr(self.fallback, method)(*args)
-            if self.primary is not None:
+            if self.chain:
                 res["provenance"]["note"] += f" | fallback: {self.last_error or 'breaker open'}"
-        elif method == "fundamentals":  # enrich partial Nasdaq ratios with simulated statements, tag per field
+        elif method == "fundamentals":  # enrich partial live ratios with simulated statements, tag per field
             sim = self.fallback.fundamentals(*args)
             merged = dict(sim["ratios"]); merged.update(res["ratios"])
             src = dict(sim["fields_source"]); src.update(res["fields_source"])
             res = {**res, "ratios": merged, "statements": sim["statements"], "fields_source": src}
             res["provenance"] = {**res["provenance"], "simulated": False, "mixed": True,
-                                 "note": "Ratios from Nasdaq where available; statements are SIMULATED"}
+                                 "note": f"Ratios from {used.name.capitalize()} where available; statements are SIMULATED"}
         with self._lock:
             self._cache[key] = (time.time(), res)
         return res
@@ -308,12 +390,18 @@ def build_provider(settings) -> Any:
     nas = NasdaqProvider(settings.nasdaq_timeout_s)
     if settings.provider == "nasdaq":
         return nas
-    return AutoProvider(nas, sim)
+    try:
+        yah = YahooProvider()
+    except ProviderError:
+        yah = None
+    if settings.provider == "yahoo":
+        return yah or sim
+    return AutoProvider([nas, yah], sim)  # auto: Nasdaq first, then Yahoo, then labelled simulator
 
 
 def history_df(h: Dict[str, Any]) -> pd.DataFrame:
     return pd.DataFrame(h["candles"])
 
 
-__all__ = ["UNIVERSE", "SECTOR", "ProviderError", "SyntheticProvider", "NasdaqProvider", "AutoProvider",
+__all__ = ["UNIVERSE", "SECTOR", "ProviderError", "SyntheticProvider", "NasdaqProvider", "YahooProvider", "AutoProvider",
            "build_provider", "history_df", "provenance"]

@@ -135,3 +135,30 @@ def test_auto_prefers_nasdaq_and_marks_mixed_fundamentals():
     f = AutoProvider(nas, SyntheticProvider()).fundamentals("AAPL")
     assert f["ratios"]["pe"] == 20.0 and f["fields_source"]["pe"] == "nasdaq" and f["fields_source"]["roe"] == "synthetic"
     assert f["provenance"]["mixed"] is True
+
+
+def test_yahoo_provider_and_auto_chain_falls_through_nasdaq():
+    import pandas as pd
+    from meridian.data.providers import YahooProvider
+
+    idx = pd.date_range("2026-01-01", periods=60, freq="B")
+    df = pd.DataFrame({"Open": 100.0, "High": 102.0, "Low": 99.0, "Close": [100.0 + i for i in range(60)], "Volume": 1000}, index=idx)
+
+    class FakeTicker:
+        info = {"trailingPE": 25.0, "marketCap": 1e12, "debtToEquity": 150.0, "sector": "Technology"}
+        def history(self, **kw): return df
+
+    class FakeYF:
+        Ticker = staticmethod(lambda s: FakeTicker())
+
+    y = YahooProvider(yf=FakeYF())
+    q = y.quote("AAPL")
+    assert q["price"] == 159.0 and q["provenance"]["source"] == "yahoo" and not q["provenance"]["simulated"]
+    assert len(y.history("AAPL", 40)["candles"]) == 40
+    f = y.fundamentals("AAPL")
+    assert f["ratios"]["debt_to_equity"] == 1.5 and f["fields_source"]["pe"] == "yahoo"
+    nas = NasdaqProvider(client=FakeClient({"/info": ConnectionError("403"), "/historical": ConnectionError("403"), "/summary": ConnectionError("403")}))
+    auto = AutoProvider([nas, y], SyntheticProvider(), ttl_s=0)
+    assert auto.quote("AAPL")["provenance"]["source"] == "yahoo"
+    mixed = auto.fundamentals("AAPL")
+    assert mixed["fields_source"]["pe"] == "yahoo" and mixed["fields_source"]["roe"] == "synthetic"
