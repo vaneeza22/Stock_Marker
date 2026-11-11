@@ -1,0 +1,35 @@
+Issue Key,Issue Type,Summary,Epic Link,Assignee Role,Story Points,Status,Acceptance Criteria,Evidence
+MER-1,Epic,Portfolio Manager Trading Workspace,,,,In Progress,"PM-facing experience: dashboards, copilot, decision cards, approvals.",
+MER-2,Epic,Agentic Infrastructure & MCP Integration,,,,In Progress,"Harness, context management, PTC, MCP servers, policy.",
+MER-3,Epic,Sandbox & Safe Execution,,,,In Progress,"Isolated Python execution, validation, self-debug loop.",
+MER-4,Epic,Data Platform (Nasdaq) & Provenance,,,,In Progress,"Live Nasdaq provider, fallback, per-field provenance.",
+MER-5,Epic,Async Jobs & Cloud Deployment,,,,In Progress,"Celery/Redis workers, progress, retries, AWS, CI/CD.",
+MER-6,Epic,Product Discovery & Delivery Ops,,,,In Progress,"Miro research/wireframes, Jira hygiene, presentation.",
+MER-101,Story,Market overview and watchlist dashboard,MER-1,Frontend Eng,5,Done,"Watchlist shows price, change, trend, tech score for the universe; every number carries a data-source label.",web/index.html; tests/test_api_jobs.py
+MER-102,Story,Symbol workspace with candles and indicator toggles,MER-1,Frontend Eng,8,Done,Candles + SMA/EMA/Bollinger/RSI/MACD/volume render from API data; fundamentals card with valuation; simulated data is labelled.,web/index.html; meridian/analytics/technical.py
+MER-103,Story,"Agent canvas: charts, tables, decision cards",MER-1,Frontend Eng,8,Done,"Agent output renders as tiles, charts and cards; Bull/Bear/Risk debate is collapsible; assumptions and caveats visible.",web/index.html; meridian/harness/agents.py
+MER-104,Story,Enable Portfolio Manager Trading Idea Generator via Agentic Loop,MER-1,Tech Lead,13,Done,"Validates request and data scope; uses registered tools only; runs code in sandbox with time/memory/network limits; records tool calls, data timestamps, calculations, errors, outputs; states assumptions, provenance and risk caveats; no trade without separate explicit approval.",meridian/harness/core.py; tests/test_harness.py
+MER-105,Story,Human approval workflow for paper trades,MER-1,Backend Eng,5,Done,propose_trade creates a pending approval; only pm role can approve; approval paper-fills; paper book cannot go short; no real orders.,meridian/jobs/store.py; tests/test_api_jobs.py
+MER-106,Story,Copilot chat with live timeline and context meter,MER-1,Frontend Eng,5,Done,"Run progress streams via SSE; context usage meter shows budget, offloaded refs and tokens kept out of context.",web/index.html; /api/runs/{id}/stream
+MER-201,Story,"Harness pipeline (policy, context, plan, run, debate, card)",MER-2,Tech Lead,13,Done,Each stage emits audited events; failures surface as typed errors; transient errors are retriable.,meridian/harness/core.py
+MER-202,Story,"Context management (budget, pin, offload, summarise)",MER-2,AI Eng,8,Done,Context never exceeds budget; large payloads offloaded to ref://ctx; lowest-priority items dropped; state persists across workers.,meridian/harness/context.py
+MER-203,Story,"MCP servers: market, analytics, portfolio",MER-2,Backend Eng,8,Done,"JSON-RPC 2.0 tools/list + tools/call; schema validation; annotations (readOnlyHint, sensitivity); in-proc, stdio and HTTP transports.",meridian/mcp/; tests/test_mcp_sandbox.py
+MER-204,Story,Programmatic tool calling planner (templates + optional LLM),MER-2,AI Eng,13,Done,Planner emits one Python program calling tools.<server>_<tool>; parallel fan-out via tools.map; offline template planner works without an API key.,meridian/harness/planner.py
+MER-205,Story,Policy engine and prompt-injection quarantine,MER-2,Security Eng,8,Done,"Roles viewer/analyst/pm; data scope and call budgets enforced; tool results flagged as data, injection patterns quarantined.",meridian/harness/policy.py
+MER-206,Story,Tamper-evident audit log,MER-2,Security Eng,5,Done,Hash-chained JSONL; /api/audit/verify detects any edit; concurrent writers safe.,meridian/harness/audit.py
+MER-301,Story,AST validator and restricted runner,MER-3,Security Eng,8,Done,Disallowed imports/builtins/attributes rejected before execution; runner strips builtins and blocks sockets.,meridian/sandbox/validator.py; runner.py
+MER-302,Story,Resource-limited sandbox executor,MER-3,Backend Eng,8,Done,"CPU, memory, file size, process and wall-time limits enforced; deadline extends only for tool latency.",meridian/sandbox/executor.py
+MER-303,Story,Self-debug and repair loop,MER-3,AI Eng,8,Done,On failure the planner repairs up to 2 times then falls back to a template; timeout/memory failures retry lighter.,tests/test_harness.py
+MER-304,Story,"Docker sandbox backend (network none, read-only)",MER-3,DevOps,5,In Review,Container runs with --network none --read-only --cap-drop ALL; CI isolation smoke test passes. Not run in build environment.,.github/workflows/ci.yml
+MER-401,Story,Nasdaq provider,MER-4,Data Eng,8,In Review,Parses api.nasdaq.com quote/history/fundamentals responses; fixture-tested; live responses to be verified on a networked host.,meridian/data/providers.py
+MER-402,Story,Synthetic provider and fallback with circuit breaker,MER-4,Data Eng,5,Done,Auto provider falls back when Nasdaq fails; simulated data always labelled; per-field provenance returned.,meridian/data/providers.py
+MER-403,Story,Technical and fundamental analytics library,MER-4,Quant Eng,8,Done,"Indicators match reference formulas; patterns, trend, support/resistance, valuation scoring covered by tests.",meridian/analytics/; tests/test_analytics_data.py
+MER-404,Story,"Monte-Carlo, portfolio stats, backtest",MER-4,Quant Eng,5,Done,"Fan-chart projections, what-if scenarios, RSI backtest return reproducible given a seed.",meridian/analytics/simulation.py
+MER-501,Story,Celery workers with retries and progress,MER-5,Backend Eng,8,Done,"acks_late, autoretry with backoff on TransientError; progress persisted; idempotent redelivery; verified against real Redis.",meridian/jobs/tasks.py; scripts/smoke_celery.py
+MER-502,Story,FastAPI service with SSE,MER-5,Backend Eng,5,Done,POST /api/runs returns 202; GET and SSE stream expose progress and results.,meridian/api/app.py
+MER-503,Story,Dockerfiles and compose stack,MER-5,DevOps,3,Done,"docker compose up runs redis, api, worker, beat.",docker-compose.yml
+MER-504,Story,GitHub Actions CI,MER-5,DevOps,5,Done,"Lint, tests, Celery integration with Redis, docker build on every PR.",.github/workflows/ci.yml
+MER-505,Story,AWS infrastructure as code,MER-5,DevOps,8,To Do,"Terraform/CDK for VPC, ECS, ElastiCache, RDS, ALB, S3, KMS per architecture diagram.",docs/architecture.png
+MER-601,Story,"Miro board: research, journeys, wireframes, system flow",MER-6,Product Manager,8,Done,"Board meets the Great tier: every wireframe component links to its MCP server/integration, HITL checkpoints, status legend.",docs/miro/
+MER-602,Story,"Jira board with epics, stories, owners, criteria",MER-6,Product Manager,3,Done,"All stories carry owner, points, acceptance criteria.",docs/jira/
+MER-603,Story,Brief presentation,MER-6,Product Manager,3,Done,"Covers problem, features, architecture, demo.",presentation

@@ -1,0 +1,9 @@
+# Replace the placeholders with your team's GitHub handles.
+*                              @your-org/meridian-core
+/meridian/harness/             @your-org/harness-team
+/meridian/mcp/                 @your-org/integrations-team
+/meridian/sandbox/             @your-org/platform-security
+/meridian/jobs/                @your-org/platform-security
+/meridian/analytics/           @your-org/quant-team
+/web/                          @your-org/frontend-team
+/docs/ /infra/                 @your-org/meridian-core

@@ -1,0 +1,36 @@
+# docker compose up --build   ->  http://localhost:8000
+# Set MERIDIAN_PROVIDER=nasdaq|auto for live Nasdaq data; ANTHROPIC_API_KEY enables the LLM planner.
+x-app: &app
+  build: .
+  environment: &env
+    MERIDIAN_DATA_DIR: /data
+    MERIDIAN_PROVIDER: ${MERIDIAN_PROVIDER:-auto}
+    ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
+    MERIDIAN_JOBS: celery
+    REDIS_URL: redis://redis:6379/0
+    SANDBOX_BACKEND: ${SANDBOX_BACKEND:-local}
+  volumes: ["meridian-data:/data"]
+  depends_on: [redis]
+
+services:
+  redis:
+    image: redis:7-alpine
+    command: ["redis-server", "--save", "", "--appendonly", "no"]
+  api:
+    <<: *app
+    ports: ["8000:8000"]
+  worker:
+    <<: *app
+    command: ["celery", "-A", "meridian.jobs.tasks", "worker", "-l", "info", "-c", "4"]
+    deploy: {resources: {limits: {memory: 3g}}}
+  beat:
+    <<: *app
+    command: ["celery", "-A", "meridian.jobs.tasks", "beat", "-l", "info"]
+  sandbox-image:            # build-only: `docker compose --profile build up sandbox-image`, then SANDBOX_BACKEND=docker
+    profiles: ["build"]
+    build: {context: ., dockerfile: infra/sandbox.Dockerfile}
+    image: meridian-sandbox:latest
+    command: ["true"]
+
+volumes:
+  meridian-data:

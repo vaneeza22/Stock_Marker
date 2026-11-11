@@ -1,0 +1,9 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    { "name": "Meridian: run app (http://localhost:8000)", "type": "debugpy", "request": "launch", "module": "uvicorn",
+      "args": ["meridian.api.app:app", "--port", "8000"], "cwd": "${workspaceFolder}", "envFile": "${workspaceFolder}/.env" },
+    { "name": "Meridian: check live Nasdaq feed", "type": "debugpy", "request": "launch", "program": "${workspaceFolder}/scripts/check_nasdaq.py", "console": "integratedTerminal" },
+    { "name": "Meridian: run tests", "type": "debugpy", "request": "launch", "module": "pytest", "args": ["-q"], "cwd": "${workspaceFolder}" }
+  ]
+}

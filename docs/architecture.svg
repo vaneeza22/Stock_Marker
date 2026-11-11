@@ -1,0 +1,221 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1900 1230" width="1900" height="1230" font-family="Inter,Segoe UI,Helvetica,Arial,sans-serif">
+<defs>
+<linearGradient id="shine" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".22"/><stop offset="1" stop-color="#000" stop-opacity=".12"/></linearGradient>
+<marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#1e293b"/></marker>
+<pattern id="dots" width="22" height="22" patternUnits="userSpaceOnUse"><circle cx="1.5" cy="1.5" r="1" fill="#e2e8f0"/></pattern>
+</defs>
+<style>
+.boxlab{font-size:14px;font-weight:700;letter-spacing:.2px}.boxsub{font-size:11px;fill:#64748b}
+.ilab{font-size:12.5px;font-weight:650;fill:#0f172a}.isub{font-size:10.5px;fill:#475569}
+.glyph{font-size:22px;font-weight:700;fill:#fff;letter-spacing:.5px}.num{font-size:12px;font-weight:700;fill:#fff}
+.alab{font-size:11px;fill:#334155;font-style:italic}.title{font-size:28px;font-weight:800;fill:#0f172a}.tsub{font-size:14px;fill:#475569}
+.leg{font-size:12px;fill:#0f172a}.legh{font-size:13px;font-weight:700;fill:#0f172a}.tiny{font-size:11px;fill:#475569}
+</style>
+<rect width="1900" height="1230" fill="#f8fafc"/><rect width="1900" height="1230" fill="url(#dots)"/>
+<text x="36" y="52" class="title">Meridian — Agentic Portfolio Desk on AWS</text>
+<text x="36" y="76" class="tsub">Cloud harness · MCP · programmatic tool calling · isolated Python sandbox · Celery workers · human-in-the-loop approvals</text>
+<rect x="69.0" y="299.0" width="62" height="62" rx="9" fill="#334155"/>
+<rect x="69.0" y="299.0" width="62" height="62" rx="9" fill="url(#shine)"/>
+<text x="100" y="338" text-anchor="middle" class="glyph">PM</text>
+<text x="100" y="377.0" text-anchor="middle" class="ilab">Portfolio Manager</text>
+<text x="100" y="391.0" text-anchor="middle" class="isub">Browser · dashboard</text>
+<text x="100" y="403.0" text-anchor="middle" class="isub">SSE progress</text>
+<rect x="69.0" y="969.0" width="62" height="62" rx="9" fill="#334155"/>
+<rect x="69.0" y="969.0" width="62" height="62" rx="9" fill="url(#shine)"/>
+<text x="100" y="1008" text-anchor="middle" class="glyph">GH</text>
+<text x="100" y="1047.0" text-anchor="middle" class="ilab">GitHub</text>
+<text x="100" y="1061.0" text-anchor="middle" class="isub">Actions: ruff · pytest</text>
+<text x="100" y="1073.0" text-anchor="middle" class="isub">Celery integ. · docker build</text>
+<rect x="200" y="110" width="190" height="590" rx="10" fill="none" stroke="#8C4FFF" stroke-width="2" stroke-dasharray="6 4"/>
+<text x="212" y="130" class="boxlab" fill="#8C4FFF" text-anchor="start">Edge</text>
+<text x="212" y="146" class="boxsub" text-anchor="start">global</text>
+<rect x="264.0" y="159.0" width="62" height="62" rx="9" fill="#DD344C"/>
+<rect x="264.0" y="159.0" width="62" height="62" rx="9" fill="url(#shine)"/>
+<text x="295" y="198" text-anchor="middle" class="glyph">WAF</text>
+<text x="295" y="237.0" text-anchor="middle" class="ilab">WAF</text>
+<text x="295" y="251.0" text-anchor="middle" class="isub">rate / bot rules</text>
+<rect x="264.0" y="299.0" width="62" height="62" rx="9" fill="#8C4FFF"/>
+<rect x="264.0" y="299.0" width="62" height="62" rx="9" fill="url(#shine)"/>
+<text x="295" y="338" text-anchor="middle" class="glyph">CF</text>
+<text x="295" y="377.0" text-anchor="middle" class="ilab">CloudFront</text>
+<text x="295" y="391.0" text-anchor="middle" class="isub">HTTPS · caching</text>
+<rect x="264.0" y="449.0" width="62" height="62" rx="9" fill="#7AA116"/>
+<rect x="264.0" y="449.0" width="62" height="62" rx="9" fill="url(#shine)"/>
+<text x="295" y="488" text-anchor="middle" class="glyph">S3</text>
+<text x="295" y="527.0" text-anchor="middle" class="ilab">S3 — static UI</text>
+<text x="295" y="541.0" text-anchor="middle" class="isub">dashboard (SVG engine)</text>
+<rect x="264.0" y="589.0" width="62" height="62" rx="9" fill="#DD344C"/>
+<rect x="264.0" y="589.0" width="62" height="62" rx="9" fill="url(#shine)"/>
+<text x="295" y="628" text-anchor="middle" class="glyph">ID</text>
+<text x="295" y="667.0" text-anchor="middle" class="ilab">Cognito</text>
+<text x="295" y="681.0" text-anchor="middle" class="isub">JWT → viewer/analyst/pm</text>
+<rect x="420" y="100" width="1130" height="1090" rx="10" fill="none" stroke="#334155" stroke-width="2"/>
+<text x="432" y="120" class="boxlab" fill="#334155" text-anchor="start">AWS Region  ·  VPC 10.0.0.0/16</text>
+<text x="432" y="136" class="boxsub" text-anchor="start">3 AZs; tiers shown once</text>
+<rect x="440" y="150" width="200" height="1000" rx="10" fill="none" stroke="#7AA116" stroke-width="2" stroke-dasharray="6 4"/>
+<text x="452" y="170" class="boxlab" fill="#7AA116" text-anchor="start">Public subnets</text>
+<rect x="509.0" y="299.0" width="62" height="62" rx="9" fill="#8C4FFF"/>
+<rect x="509.0" y="299.0" width="62" height="62" rx="9" fill="url(#shine)"/>
+<text x="540" y="338" text-anchor="middle" class="glyph">ALB</text>
+<text x="540" y="377.0" text-anchor="middle" class="ilab">ALB</text>
+<text x="540" y="391.0" text-anchor="middle" class="isub">TLS · /api · /mcp</text>
+<rect x="509.0" y="869.0" width="62" height="62" rx="9" fill="#8C4FFF"/>
+<rect x="509.0" y="869.0" width="62" height="62" rx="9" fill="url(#shine)"/>
+<text x="540" y="908" text-anchor="middle" class="glyph">NAT</text>
+<text x="540" y="947.0" text-anchor="middle" class="ilab">NAT Gateway</text>
+<text x="540" y="961.0" text-anchor="middle" class="isub">egress allow-list</text>
+<rect x="660" y="150" width="600" height="330" rx="10" fill="none" stroke="#3b82f6" stroke-width="2" stroke-dasharray="6 4"/>
+<text x="672" y="170" class="boxlab" fill="#3b82f6" text-anchor="start">Private subnets — API and queue</text>
+<rect x="739.0" y="249.0" width="62" height="62" rx="9" fill="#ED7100"/>
+<rect x="739.0" y="249.0" width="62" height="62" rx="9" fill="url(#shine)"/>
+<text x="770" y="288" text-anchor="middle" class="glyph">API</text>
+<text x="770" y="327.0" text-anchor="middle" class="ilab">FastAPI service</text>
+<text x="770" y="341.0" text-anchor="middle" class="isub">ECS Fargate · SSE</text>
+<text x="770" y="353.0" text-anchor="middle" class="isub">runs · approvals · audit</text>
+<rect x="929.0" y="249.0" width="62" height="62" rx="9" fill="#C925D1"/>
+<rect x="929.0" y="249.0" width="62" height="62" rx="9" fill="url(#shine)"/>
+<text x="960" y="288" text-anchor="middle" class="glyph">RD</text>
+<text x="960" y="327.0" text-anchor="middle" class="ilab">ElastiCache Redis</text>
+<text x="960" y="341.0" text-anchor="middle" class="isub">Celery broker · cache</text>
+<text x="960" y="353.0" text-anchor="middle" class="isub">task queue</text>
+<rect x="1119.0" y="249.0" width="62" height="62" rx="9" fill="#E7157B"/>
+<rect x="1119.0" y="249.0" width="62" height="62" rx="9" fill="url(#shine)"/>
+<text x="1150" y="288" text-anchor="middle" class="glyph">BT</text>
+<text x="1150" y="327.0" text-anchor="middle" class="ilab">Celery Beat</text>
+<text x="1150" y="341.0" text-anchor="middle" class="isub">EventBridge sched.</text>
+<text x="1150" y="353.0" text-anchor="middle" class="isub">cache warm-up · briefs</text>
+<rect x="660" y="510" width="600" height="380" rx="10" fill="none" stroke="#ED7100" stroke-width="2" stroke-dasharray="6 4"/>
+<text x="1248" y="530" class="boxlab" fill="#ED7100" text-anchor="end">Private subnets — ECS (EC2) Celery workers</text>
+<text x="1248" y="546" class="boxsub" text-anchor="end">autoscale on queue depth · acks_late · retries w/ backoff</text>
+<rect x="680" y="560" width="270" height="310" rx="10" fill="#fff7ed" stroke="#ED7100" stroke-width="2"/>
+<text x="692" y="580" class="boxlab" fill="#ED7100" text-anchor="start">Harness</text>
+<text x="692" y="596" class="boxsub" text-anchor="start">orchestration</text>
+<text x="694" y="622" class="tiny">• request + tool policy (roles, scope, budget)</text>
+<text x="694" y="660" class="tiny">• context manager (budget · offload · summarise)</text>
+<text x="694" y="698" class="tiny">• planner → PTC program (LLM | template)</text>
+<text x="694" y="736" class="tiny">• self-debug loop · quarantine</text>
+<text x="694" y="774" class="tiny">• Bull/Bear/Risk debate → decision card</text>
+<text x="694" y="812" class="tiny">• hash-chained audit</text>
+<rect x="970" y="560" width="270" height="310" rx="10" fill="#f0fdfa" stroke="#0ea5a4" stroke-width="2"/>
+<text x="982" y="580" class="boxlab" fill="#0ea5a4" text-anchor="start">MCP layer</text>
+<text x="982" y="596" class="boxsub" text-anchor="start">JSON-RPC 2.0 · tools/resources</text>
+<rect x="984" y="598" width="242" height="68" rx="8" fill="#ccfbf1" stroke="#0ea5a4"/><text x="998" y="622" class="boxlab" fill="#0f766e">MCP server: market</text><text x="998" y="640" class="tiny">quote · history · fundamentals</text>
+<rect x="984" y="682" width="242" height="68" rx="8" fill="#ccfbf1" stroke="#0ea5a4"/><text x="998" y="706" class="boxlab" fill="#0f766e">MCP server: analytics</text><text x="998" y="724" class="tiny">snapshot · indicators · backtest</text>
+<rect x="984" y="766" width="242" height="68" rx="8" fill="#ccfbf1" stroke="#0ea5a4"/><text x="998" y="790" class="boxlab" fill="#0f766e">MCP server: portfolio</text><text x="998" y="808" class="tiny">holdings · propose_trade (HITL)</text>
+<rect x="1290" y="510" width="240" height="380" rx="10" fill="none" stroke="#DD344C" stroke-width="2" stroke-dasharray="6 4"/>
+<text x="1518" y="530" class="boxlab" fill="#DD344C" text-anchor="end">Isolated sandbox subnet</text>
+<text x="1518" y="546" class="boxsub" text-anchor="end">no route to internet / NAT</text>
+<rect x="1375.0" y="585.0" width="70" height="70" rx="9" fill="#DD344C"/>
+<rect x="1375.0" y="585.0" width="70" height="70" rx="9" fill="url(#shine)"/>
+<text x="1410" y="628" text-anchor="middle" class="glyph">BOX</text>
+<text x="1410" y="671.0" text-anchor="middle" class="ilab">Sandbox container</text>
+<text x="1410" y="685.0" text-anchor="middle" class="isub">--network none · read-only</text>
+<text x="1410" y="697.0" text-anchor="middle" class="isub">cap-drop ALL · 64 pids</text>
+<text x="1410" y="709.0" text-anchor="middle" class="isub">CPU/mem/wall limits</text>
+<text x="1310" y="760" class="tiny">Runs generated Python (PTC):</text><text x="1310" y="776" class="tiny">tools.market_history(...)</text><text x="1310" y="792" class="tiny">tools.map('analytics_snapshot', …)</text><text x="1310" y="808" class="tiny">→ charts · tables · signals</text><text x="1310" y="832" class="tiny">tool calls leave only via the</text><text x="1310" y="848" class="tiny">policy-checked stdio bridge</text>
+<rect x="660" y="920" width="880" height="240" rx="10" fill="none" stroke="#C925D1" stroke-width="2" stroke-dasharray="6 4"/>
+<text x="1528" y="940" class="boxlab" fill="#C925D1" text-anchor="end">Private subnets — data and secrets</text>
+<rect x="729.0" y="999.0" width="62" height="62" rx="9" fill="#C925D1"/>
+<rect x="729.0" y="999.0" width="62" height="62" rx="9" fill="url(#shine)"/>
+<text x="760" y="1038" text-anchor="middle" class="glyph">DB</text>
+<text x="760" y="1077.0" text-anchor="middle" class="ilab">RDS PostgreSQL</text>
+<text x="760" y="1091.0" text-anchor="middle" class="isub">runs · events · sessions</text>
+<text x="760" y="1103.0" text-anchor="middle" class="isub">approvals · paper book</text>
+<rect x="899.0" y="999.0" width="62" height="62" rx="9" fill="#7AA116"/>
+<rect x="899.0" y="999.0" width="62" height="62" rx="9" fill="url(#shine)"/>
+<text x="930" y="1038" text-anchor="middle" class="glyph">S3</text>
+<text x="930" y="1077.0" text-anchor="middle" class="ilab">S3 — results</text>
+<text x="930" y="1091.0" text-anchor="middle" class="isub">artifacts · decision cards</text>
+<rect x="1069.0" y="999.0" width="62" height="62" rx="9" fill="#7AA116"/>
+<rect x="1069.0" y="999.0" width="62" height="62" rx="9" fill="url(#shine)"/>
+<text x="1100" y="1038" text-anchor="middle" class="glyph">S3</text>
+<text x="1100" y="1077.0" text-anchor="middle" class="ilab">S3 — audit (Object Lock)</text>
+<text x="1100" y="1091.0" text-anchor="middle" class="isub">hash-chained JSONL archive</text>
+<rect x="1239.0" y="999.0" width="62" height="62" rx="9" fill="#DD344C"/>
+<rect x="1239.0" y="999.0" width="62" height="62" rx="9" fill="url(#shine)"/>
+<text x="1270" y="1038" text-anchor="middle" class="glyph">SM</text>
+<text x="1270" y="1077.0" text-anchor="middle" class="ilab">Secrets Manager</text>
+<text x="1270" y="1091.0" text-anchor="middle" class="isub">API keys (never in sandbox)</text>
+<rect x="1409.0" y="999.0" width="62" height="62" rx="9" fill="#DD344C"/>
+<rect x="1409.0" y="999.0" width="62" height="62" rx="9" fill="url(#shine)"/>
+<text x="1440" y="1038" text-anchor="middle" class="glyph">KMS</text>
+<text x="1440" y="1077.0" text-anchor="middle" class="ilab">KMS</text>
+<text x="1440" y="1091.0" text-anchor="middle" class="isub">encryption · checkpoint signing</text>
+<rect x="1580" y="110" width="290" height="1080" rx="10" fill="none" stroke="#5D6C8A" stroke-width="2" stroke-dasharray="6 4"/>
+<text x="1592" y="130" class="boxlab" fill="#5D6C8A" text-anchor="start">External and observability</text>
+<rect x="1694.0" y="189.0" width="62" height="62" rx="9" fill="#5D6C8A"/>
+<rect x="1694.0" y="189.0" width="62" height="62" rx="9" fill="url(#shine)"/>
+<text x="1725" y="228" text-anchor="middle" class="glyph">NQ</text>
+<text x="1725" y="267.0" text-anchor="middle" class="ilab">Nasdaq data</text>
+<text x="1725" y="281.0" text-anchor="middle" class="isub">api.nasdaq.com (live)</text>
+<text x="1725" y="293.0" text-anchor="middle" class="isub">licensed feed in prod</text>
+<rect x="1694.0" y="379.0" width="62" height="62" rx="9" fill="#0ea5a4"/>
+<rect x="1694.0" y="379.0" width="62" height="62" rx="9" fill="url(#shine)"/>
+<text x="1725" y="418" text-anchor="middle" class="glyph">AI</text>
+<text x="1725" y="457.0" text-anchor="middle" class="ilab">Anthropic API</text>
+<text x="1725" y="471.0" text-anchor="middle" class="isub">LLM planner / narrator</text>
+<text x="1725" y="483.0" text-anchor="middle" class="isub">optional; offline planner else</text>
+<rect x="1694.0" y="589.0" width="62" height="62" rx="9" fill="#E7157B"/>
+<rect x="1694.0" y="589.0" width="62" height="62" rx="9" fill="url(#shine)"/>
+<text x="1725" y="628" text-anchor="middle" class="glyph">CW</text>
+<text x="1725" y="667.0" text-anchor="middle" class="ilab">CloudWatch + X-Ray</text>
+<text x="1725" y="681.0" text-anchor="middle" class="isub">logs · metrics · traces</text>
+<text x="1725" y="693.0" text-anchor="middle" class="isub">queue-depth and error alarms</text>
+<rect x="1694.0" y="769.0" width="62" height="62" rx="9" fill="#E7157B"/>
+<rect x="1694.0" y="769.0" width="62" height="62" rx="9" fill="url(#shine)"/>
+<text x="1725" y="808" text-anchor="middle" class="glyph">SNS</text>
+<text x="1725" y="847.0" text-anchor="middle" class="ilab">SNS / Alarms</text>
+<text x="1725" y="861.0" text-anchor="middle" class="isub">pager · Slack</text>
+<rect x="1694.0" y="959.0" width="62" height="62" rx="9" fill="#ED7100"/>
+<rect x="1694.0" y="959.0" width="62" height="62" rx="9" fill="url(#shine)"/>
+<text x="1725" y="998" text-anchor="middle" class="glyph">ECR</text>
+<text x="1725" y="1037.0" text-anchor="middle" class="ilab">ECR</text>
+<text x="1725" y="1051.0" text-anchor="middle" class="isub">app + sandbox images</text>
+<path d="M131,330 L264,330" fill="none" stroke="#1e293b" stroke-width="2" marker-end="url(#ah)"/>
+<circle cx="200" cy="330" r="12" fill="#0f172a"/><text x="200" y="334" text-anchor="middle" class="num">1</text>
+<path d="M326,340 L356,340 L356,480 L326,480" fill="none" stroke="#1e293b" stroke-width="2" marker-end="url(#ah)"/>
+<path d="M326,322 L509,322" fill="none" stroke="#1e293b" stroke-width="2" marker-end="url(#ah)"/>
+<circle cx="440" cy="322" r="12" fill="#0f172a"/><text x="440" y="326" text-anchor="middle" class="num">2</text>
+<path d="M326,620 L470,620 L470,350 L509,350" fill="none" stroke="#1e293b" stroke-width="2" stroke-dasharray="5 4" marker-end="url(#ah)"/>
+<text x="338" y="612" class="alab">JWT validated at ALB</text>
+<path d="M571,330 L620,330 L620,262 L739,262" fill="none" stroke="#1e293b" stroke-width="2" marker-end="url(#ah)"/>
+<circle cx="680" cy="262" r="12" fill="#0f172a"/><text x="680" y="266" text-anchor="middle" class="num">3</text>
+<path d="M801,280 L929,280" fill="none" stroke="#1e293b" stroke-width="2" marker-end="url(#ah)"/>
+<circle cx="865" cy="280" r="12" fill="#0f172a"/><text x="865" y="284" text-anchor="middle" class="num">4</text>
+<path d="M1119,280 L991,280" fill="none" stroke="#1e293b" stroke-width="2" stroke-dasharray="5 4" marker-end="url(#ah)"/>
+<path d="M960,366 L960,436 L820,436 L820,558" fill="none" stroke="#1e293b" stroke-width="2" marker-end="url(#ah)"/>
+<circle cx="960" cy="436" r="12" fill="#0f172a"/><text x="960" y="440" text-anchor="middle" class="num">5</text>
+<path d="M950,690 L970,690" fill="none" stroke="#1e293b" stroke-width="2" marker-end="url(#ah)"/>
+<circle cx="960" cy="676" r="12" fill="#0f172a"/><text x="960" y="680" text-anchor="middle" class="num">6</text>
+<path d="M1240,650 L1290,650" fill="none" stroke="#1e293b" stroke-width="2" marker-end="url(#ah)" marker-start="url(#ah)"/>
+<circle cx="1265" cy="636" r="12" fill="#0f172a"/><text x="1265" y="640" text-anchor="middle" class="num">7</text>
+<path d="M1100,872 L1100,908 L571,908" fill="none" stroke="#c2410c" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#ah)"/>
+<text x="600" y="903" class="alab" fill="#c2410c" style="fill:#c2410c">egress: market data + LLM calls (allow-listed)</text>
+<path d="M509,900 L470,900 L470,1175 L1604,1175 L1604,220 L1694,220" fill="none" stroke="#c2410c" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#ah)"/>
+<circle cx="1604" cy="700" r="12" fill="#0f172a"/><text x="1604" y="704" text-anchor="middle" class="num">8</text>
+<path d="M1604,410 L1694,410" fill="none" stroke="#c2410c" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#ah)"/>
+<circle cx="1650" cy="410" r="12" fill="#0f172a"/><text x="1650" y="414" text-anchor="middle" class="num">9</text>
+<path d="M760,872 L760,999" fill="none" stroke="#1e293b" stroke-width="2" marker-end="url(#ah)"/>
+<circle cx="760" cy="968" r="12" fill="#0f172a"/><text x="760" y="972" text-anchor="middle" class="num">10</text>
+<path d="M850,872 L850,945 L930,945 L930,999" fill="none" stroke="#1e293b" stroke-width="2" marker-end="url(#ah)"/>
+<path d="M1010,872 L1010,955 L1100,955 L1100,999" fill="none" stroke="#1e293b" stroke-width="2" marker-end="url(#ah)"/>
+<path d="M729,1015 L652,1015 L652,298 L739,298" fill="none" stroke="#1e293b" stroke-width="2" stroke-dasharray="5 4" marker-end="url(#ah)"/>
+<circle cx="652" cy="640" r="12" fill="#0f172a"/><text x="652" y="644" text-anchor="middle" class="num">11</text>
+<path d="M1694,620 L1556,620" fill="none" stroke="#1e293b" stroke-width="2" stroke-dasharray="3 3" marker-end="url(#ah)"/>
+<path d="M131,1000 L185,1000 L185,1212 L1725,1212 L1725,1074" fill="none" stroke="#1e293b" stroke-width="2" stroke-dasharray="4 4" marker-end="url(#ah)"/>
+<circle cx="700" cy="1212" r="12" fill="#0f172a"/><text x="700" y="1216" text-anchor="middle" class="num">12</text>
+<rect x="14" y="734" width="178" height="206" rx="10" fill="#fff" stroke="#cbd5e1"/>
+<text x="22" y="754" class="legh">Numbered data flow</text>
+<text x="22" y="774" class="leg" style="font-size:10.5px">1  HTTPS + SSE to the UI</text>
+<text x="22" y="788" class="leg" style="font-size:10.5px">2  /api → ALB (WAF in front)</text>
+<text x="22" y="802" class="leg" style="font-size:10.5px">3  JWT → role, route to API</text>
+<text x="22" y="816" class="leg" style="font-size:10.5px">4  enqueue run (Celery)</text>
+<text x="22" y="830" class="leg" style="font-size:10.5px">5  worker consumes, ack late</text>
+<text x="22" y="844" class="leg" style="font-size:10.5px">6  harness → MCP (JSON-RPC)</text>
+<text x="22" y="858" class="leg" style="font-size:10.5px">7  PTC program ⇄ sandbox bridge</text>
+<text x="22" y="872" class="leg" style="font-size:10.5px">8  egress: Nasdaq data</text>
+<text x="22" y="886" class="leg" style="font-size:10.5px">9  egress: LLM planner</text>
+<text x="22" y="900" class="leg" style="font-size:10.5px">10 persist state + audit</text>
+<text x="22" y="914" class="leg" style="font-size:10.5px">11 API polls / streams progress</text>
+<text x="22" y="928" class="leg" style="font-size:10.5px">12 CI/CD → ECR → ECS</text>
+</svg>

@@ -1,0 +1,15 @@
+__pycache__/
+*.pyc
+.venv/
+.meridian/
+*.db
+*.db-wal
+*.db-shm
+.pytest_cache/
+.ruff_cache/
+*.egg-info/
+.env
+dist/
+
+.venv*/
+.meridian/
